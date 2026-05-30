@@ -76,6 +76,20 @@ repo root の `CLAUDE.md` は「そのプロジェクト固有のルール」。
 
 詳細（スキル・代表作・応募方針・NG リスト）は `vault/Preferences/profile.md` を必要時に Read。コミュニケーションスタイルは `vault/Preferences/ai-behavior.md`（自動読込）参照。
 
+## グローバルルールの CAIC 同期（自動）
+
+CAIC（claude.ai/code）はクラウドで動くため、ローカルの `~/.claude/CLAUDE.md` を読めない。
+そこでこのファイルの内容を各リポの `.claude/rules/00-global.md`（CAIC が自動読込する）へ
+複製し、各リポの **default ブランチ(main)** へ直接 push する仕組みを導入済み。
+
+- 正本は **この `~/.claude/CLAUDE.md` だけ**。各リポの `00-global.md` は自動生成物なので手で編集しない。
+- トリガー: `~/.claude/CLAUDE.md` を Edit/Write した瞬間に PostToolUse hook が発火し自動 push
+  （`~/.claude/scripts/sync_global_rules.py --hook`）。hook は新セッションから有効。
+- 同期先リポは `~/.claude/sync-targets.txt`（1行1リポ）。**新リポを増やしたらここに1行追記**。
+- 手動同期: `py ~/.claude/scripts/sync_global_rules.py`（外部エディタで md を直接編集した時など）。
+- git plumbing で commit するため作業ブランチ・作業ツリーは汚さない。冪等（差分なしなら push しない）。
+- 注意: 各リポの `.claude/rules/00-global.md` は**消さないこと**（CAIC への唯一の供給経路）。
+
 ## Git author
 
 全 commit で必須: `yumanichan <yumanichan@gmail.com>`

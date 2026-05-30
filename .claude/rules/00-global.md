@@ -76,6 +76,15 @@ repo root の `CLAUDE.md` は「そのプロジェクト固有のルール」。
 
 詳細（スキル・代表作・応募方針・NG リスト）は `vault/Preferences/profile.md` を必要時に Read。コミュニケーションスタイルは `vault/Preferences/ai-behavior.md`（自動読込）参照。
 
+## 用語・略語メモ
+
+石井さんが使う略語・固有名詞。会話で出たら以下と解釈する。
+
+- **CE** = **クローエンパイヤ（Claw-Empire）**。ローカルで動く「AI社員の会社シミュレータ」（OSS: `GreenSheep01201/claw-empire` / Apache 2.0 / 無料）。名前付きAI社員＋部署にタスクを振り、Claude Code が実作業する。
+  - 配置: `C:\Users\julia\Desktop\claude-projects\claw-empire`
+  - 起動: 同ディレクトリで `pnpm dev:local` → Web UI `http://127.0.0.1:8800`（API `:8790`、DB は SQLite）
+  - 用途例: クラウドワークス案件探し等のリサーチを社員に委任。応募・送信は本人（人のみ）。
+
 ## グローバルルールの CAIC 同期（自動）
 
 CAIC（claude.ai/code）はクラウドで動くため、ローカルの `~/.claude/CLAUDE.md` を読めない。

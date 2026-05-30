@@ -84,6 +84,7 @@ repo root の `CLAUDE.md` は「そのプロジェクト固有のルール」。
   - 配置: `C:\Users\julia\Desktop\claude-projects\claw-empire`
   - 起動: 同ディレクトリで `pnpm dev:local` → Web UI `http://127.0.0.1:8800`（API `:8790`、DB は SQLite）
   - 用途例: クラウドワークス案件探し等のリサーチを社員に委任。応募・送信は本人（人のみ）。
+- **CINC** = **Claude in Chrome**（「クロムインクローム」と発音される事あり）。Chrome を Claude が自動操作する MCP（`mcp__Claude_in_Chrome__*`）。ローカル Web アプリ（例: CE の UI `127.0.0.1:8800`）のクリック/入力をUI経由で自動化する用途。DBを直接触らず安全に設定変更したい時に使う。
 
 ## グローバルルールの CAIC 同期（自動）
 

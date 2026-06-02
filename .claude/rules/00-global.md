@@ -116,8 +116,15 @@ CAIC（claude.ai/code）はクラウドで動くため、ローカルの `~/.cla
 |---|---|
 | 環境 | Desktop 版 Claude Code / CAIC (claude.ai/code) のどちらか |
 | 起動場所 | フルパス（例: C:\Users\julia\Desktop\claude-projects\ew-portfolio） |
-| ブランチ | チェックアウトするブランチ名（新規分岐なら明示） |
+| ブランチ | チェックアウトするブランチ名（**事前に作成・push 済みのもの**） |
 | ワークツリー | ON / OFF |
+
+### ブランチは"先に作ってから"指定する（必須・CAIC対応）
+
+CAIC（claude.ai/code）は**既存ブランチしか選択できない**。起動指示で新規ブランチを使う場合は、
+**Claude（デスクトップ側）が先に `git checkout -b <branch>` → `git push -u origin <branch>` でリモートに作っておき**、
+起動指示には「作成済みの `<branch>` を選択」と書く。「新規作成して」と指示文に書くだけでは、
+ユーザーがCAICでそのブランチを選べず詰まる。新規作成は常にブランチ（main直は避ける）。
 
 ### フォーマット
 

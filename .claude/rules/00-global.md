@@ -83,6 +83,8 @@ repo root の `CLAUDE.md` は「そのプロジェクト固有のルール」。
 - **CE** = **クローエンパイヤ（Claw-Empire）**。ローカルで動く「AI社員の会社シミュレータ」（OSS: `GreenSheep01201/claw-empire` / Apache 2.0 / 無料）。名前付きAI社員＋部署にタスクを振り、Claude Code が実作業する。
   - 配置: `C:\Users\julia\Desktop\claude-projects\claw-empire`
   - 起動: 同ディレクトリで `pnpm dev:local` → Web UI `http://127.0.0.1:8800`（API `:8790`、DB は SQLite）
+  - **永久ルール: 石井さんが「CEを開いて」と言ったら、開発(dev:local)ではなく必ず本番環境で開く。**
+    手順: `C:\Users\julia\Desktop\claude-projects\claw-empire` で `pnpm build` → `pnpm start`（バックグラウンド）→ `http://127.0.0.1:8790` の応答(HTTP 200)を確認 → `Start-Process "http://127.0.0.1:8790"` で既定ブラウザを開く。落ちたら再ビルド→再起動で対応。（CINCはlocalhostに届かないためUI操作の代行は不可。）
   - 用途例: クラウドワークス案件探し等のリサーチを社員に委任。応募・送信は本人（人のみ）。
 - **CINC** = **Claude in Chrome**（「クロムインクローム」と発音される事あり）。Chrome を Claude が自動操作する MCP（`mcp__Claude_in_Chrome__*`）。ローカル Web アプリ（例: CE の UI `127.0.0.1:8800`）のクリック/入力をUI経由で自動化する用途。DBを直接触らず安全に設定変更したい時に使う。
 

@@ -449,10 +449,13 @@ glitch-survivors-ts で発生（2026-07-19 深夜・**未遂**）。「未コミ
 
 MacBook を2台目として使うため、**客先資料は Google ドライブのミラーに移した**（コードは GitHub、資料は Drive の2系統に分離。`.git` を含むフォルダは Drive 配下に置かない＝同時同期でリポジトリが壊れるため）。
 
-| フォルダ | **正パス（これを使う）** | 旧パス（互換用ジャンクション） | 規模 |
+| フォルダ | **正パス（これを使う）** | 旧パス（互換リンク） | 規模 |
 |---|---|---|---|
-| しんちゃんチーム等の案件資料 | `C:\Users\julia\GoogleDrive\shinchan-onhisho` | `…\claude-projects\shinchan-onhisho` | 791ファイル / 208MB |
-| リベシティ関連 | `C:\Users\julia\GoogleDrive\libecity-work` | `…\claude-projects\libecity-work` | 212ファイル / 119MB |
+| しんちゃんチーム等の案件資料 | Win: `C:\Users\julia\GoogleDrive\shinchan-onhisho`<br>Mac: `~/GoogleDrive/shinchan-onhisho` | `…/claude-projects/shinchan-onhisho` | 791ファイル / 208MB |
+| リベシティ関連 | Win: `C:\Users\julia\GoogleDrive\libecity-work`<br>Mac: `~/GoogleDrive/libecity-work` | `…/claude-projects/libecity-work` | 212ファイル / 119MB |
+
+**マシン別の実体**: Windows は `C:\Users\julia\GoogleDrive`（ジャンクション `mklink /J`）、Mac は `/Users/ishiiyuuma/GoogleDrive`（シンボリックリンク `ln -s`）。**ホームの下の `GoogleDrive` という名前で揃えてある**ので、`~/GoogleDrive/...` と書けば両OSで通る。
+⚠️ Mac で Drive の保存先に `~/Library/CloudStorage/GoogleDrive-<メール>` を指定すると「**アップロードできない構成ファイルが含まれているため同期できません**」で失敗する（そこは Drive 自身のストリーミング用予約領域のため）。**必ず別フォルダ（`~/GoogleDrive`）を作って指定する**（2026-07-20 実機で遭遇）。
 
 Drive は**「ファイルをミラーリング」設定**（ストリーミングではない）＝実体がローカルディスクにあるので、
 しんちゃんチームの明文ルール「**必ずローカル Excel で作業**」（Drive 上で作業して 4.7MB に肥大した事故の対策）と整合する。

@@ -636,7 +636,15 @@ CINC（Claude in Chrome）でGoogleスプレッドシートを操作中、**Name
 ### 手順
 
 1. **アクセシビリティ権限を実測する**。`com.anthropic.claude-code` がアクセシビリティに登録されていればキーストロークを送れる（2026-08-02 時点で登録済み。`kindle_shot.py doctor` や TCC DB で確認できる）。**無ければ従来どおりチャットに貼る**＋理由を書く。
-2. **コマンド本体はスクリプトファイルに書き出し、打ち込むのは ASCII だけのパスにする**。⚠️ **System Events の keystroke で日本語を送らない**（IME を経由して化ける。今日実測した「入力できたことと正しい文章になっていることは別」と同型の事故になる）。ループ・引用符・日本語を含むコマンドは全部スクリプト側へ逃がす。
+2. **キーストロークで文字を送らない＝必ず `pbcopy` + Cmd+V（貼り付け）で入れる**。
+   ```bash
+   printf 'bash /path/to/script.sh' | pbcopy
+   osascript -e 'tell application "System Events" to keystroke "v" using command down'
+   ```
+   ⚠️ **これは2026-08-02 に実際に失敗して確定した手順**。当初「日本語は化けるが ASCII なら安全」と考えて `keystroke "bash /private/tmp/..."` を送ったところ、**日本語IMEがかなモードだったため ASCII まで変換され**、`bash` → `ばsh`、`private` → `pりゔぁて`、`claude` → `cぁうで`、`/` → `ー` になった。**問題は送る文字が日本語かどうかではなく、受け側のIMEの状態**。IMEの状態は Claude からは分からないので、**keystroke で文字を入力する方法自体を使わない**。貼り付けはIMEを通らないので確実。
+   - コマンド本体（ループ・引用符・日本語のタイトル等）は**スクリプトファイルに書き出し**、貼るのは実行1行だけにする。
+   - クリップボードを上書きするので、**その旨を石井さんに一言添える**。
+   - 打ち込み直す時は先に `Ctrl+U` `Ctrl+K` で行をクリアしてから貼る（化けた文字が残ると連結される）。
 3. **打ち込む直前に「最前面のアプリが Terminal か」を実測する**。
    `osascript -e 'tell application "System Events" to name of first application process whose frontmost is true'`
    Terminal でなければ**打ち込まない**。キーストロークは最前面のアプリに入るので、外れると**まったく別のアプリへ文字を流し込む**（§Google スプレッドシート操作の「Name Box誤操作」事故防止 と同じ構造）。

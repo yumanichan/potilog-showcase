@@ -733,7 +733,9 @@ CINC（Claude in Chrome）でGoogleスプレッドシートを操作中、**Name
 
 1. **「編集した＝両マシンに届いた」と仮定しない＝正本のリポの状態を実測する**。`~/.claude/CLAUDE.md` を触ったら `git -C ~/.claude status --short -- CLAUDE.md` が**空**であることを確認する。`M` が残っていれば、そのルールはまだこのマシンにしか存在しない。
 2. **hook の成功出力を「同期完了」の証拠として扱わない**。`sync-global-rules:` の出力は**行ごとに対象が違う**。`[.claude] PUSHED 正本` の行が出ているかを見る（`[ew-writing] PUSHED` は複製の話でしかない）。複製系の成功メッセージは、正本について何も言っていない。
-3. **物理保証を優先する（口頭ルールより hook）**。`sync_global_rules.py` に `sync_self()` を追加済み＝CLAUDE.md 編集時に**正本そのものを `--only` で commit + push** する（`~/.claude` には作成中のスキル等が同居するので `git add -A` では巻き込まない。rebase/merge 中は触らない）。手動同期は `python3 ~/.claude/scripts/sync_global_rules.py`。
+3. **物理保証を優先する（口頭ルールより hook）**。`sync_global_rules.py` に `sync_self()` を追加済み＝CLAUDE.md 編集時に**正本そのものを `--only` で commit + push** する（`~/.claude` には作成中のスキル等が同居するので `git add -A` では巻き込まない。rebase/merge 中は触らない）。
+   - **手動同期のコマンドは OS で違う**（2026-08-03 実測）。**Mac: `python3 ~/.claude/scripts/sync_global_rules.py` ／ Windows(PowerShell): `py C:\Users\julia\.claude\scripts\sync_global_rules.py`**。
+   - ⚠️ **Windows の PowerShell で `python3` を使ってはいけない**。Microsoft Store のスタブに吸われて `Python` とだけ表示し、**引数を無視して exit 0 で終わる**＝スクリプトは1行も動かないのにエラーも出ない。「実行した＝同期された」と読める最悪の形なので、出力に `sync-global-rules:` の行が出たかを必ず目視する。
 4. **push が弾かれた時に黙って進めない**。非fast-forward で失敗したら hook は `⚠️ COMMITTED but PUSH FAILED` を出す。これを見たら **`git -C ~/.claude pull --rebase && git -C ~/.claude push`** を実行してから作業を続ける。**コミットは済んでいるので内容は失われていない**が、押していない＝もう片方のマシンには無い。
 5. **マシンを移る時は3リポを同時に見る**（`ew-writing` / `vault` / `~/.claude`）。`~/.claude` を忘れると、スキルと永久ルールだけが古いまま作業することになる。片方で作業した直後は**双方向に behind が出る**前提で、着手前に必ず fetch して実測する。
 

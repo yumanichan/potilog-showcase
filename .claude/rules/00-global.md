@@ -31,6 +31,7 @@ A project's own CLAUDE.md OVERRIDES this baseline wherever they conflict. -->
 - `vault\Decisions\log.md` — 既決判断（過去の決定との整合性が問題になる時 / 「前に決めた〜」系の発言）
 - `vault\Preferences\profile.md` — 石井の人物像（営業文・自己紹介・顧客向け文章を書く時）
 - `vault\Projects\{該当}.md` — プロジェクト固有情報（特定プロジェクトの作業を始める時）
+- **客先案件の `STATUS.md`** — **案件名が会話に出た時点で最初に読む**（ポンタ楼／しんちゃんチーム等）。「続きやって」だけでなく「◯◯から返信きた」「シフト作って」のような**断片的な指示でも、まずここを読めば再開できる**ようにしてある。場所は各案件フォルダ直下で、`~/GoogleDrive/{libecity-work,shinchan-onhisho}/CLAUDE.md` が案内している。**作業したら STATUS.md を上書きしてから終える**（2026-08-08 制定）
 - `vault\Knowledge\mistakes.md` / `harness-blind-spots.md` 等 — 過去の失敗パターンが関連する時
 
 判断基準: **「これを読まないと答えがズレる」と感じたら読む**。雑談・単発の調査・ファイル編集など Vault と無関係なタスクでは読まない。

@@ -839,6 +839,10 @@ Bの未コミット編集は git 履歴に無いため復元不能に消えて�
 5. **マシンを移る時は3リポを同時に見る**（`ew-writing` / `vault` / `~/.claude`）。`~/.claude` を忘れると、スキルと永久ルールだけが古いまま作業することになる。片方で作業した直後は**双方向に behind が出る**前提で、着手前に必ず fetch して実測する。
 6. ⭐ **hook の出力が「1行も出ない」時は、同期されていないのではなく hook 自体が死んでいることを疑う**。2026-08-16、Windows で `~/.claude/settings.json` の **hook 7件が全滅**していた（原因＝コマンドが `py ~/.claude/...` と `~` 付きで書かれており、**Windows では `~` が展開されない**ため `C:\Users\julia\GoogleDrive\libecity-work\~\.claude\...` を探して毎回 exit 2）。**hook の失敗は画面に一切出ない**ので、失敗し続けても気づけない。上の 2 は「`[.claude] PUSHED 正本` の行が出ているか」を見よと言っているが、**そもそも `sync-global-rules:` の行が1行も出ない状態**があり得る＝**出力が無いのは「問題なし」ではなく「実行されていない」**。**唯一の兆候は `git -C ~/.claude status --short -- CLAUDE.md` が `M` のまま残ること**なので、1 の実測を省略した瞬間に検知手段がゼロになる。hook のコマンドには**必ず絶対パスを書く**（`~` も `$HOME` も使わない）。
 
+   🚩 **【訂正 2026-08-16】上の「hook 7件が全滅／原因は `~`」は誤診だった。** 同日さらに実測したところ、**このWindows機には Git Bash があり hook はそちら(MINGW64)経由で走る＝`~` は展開されていた**（修正前の形 `py ~/.claude/hooks/...` を Git Bash で実行して exit 0・stderr 439バイトを確認）。`~` が失敗するのは **cmd.exe / PowerShell で試した時だけ**で、**前セッションは hook が実際に使うのと違うシェルで検証して「全滅」と結論していた**。hook が生きていた証拠＝`sync global rules` のコミットが origin に 08-14・08-16 と継続して載っている。絶対パス化自体は無駄ではない（Git Bash の有無に依存しなくなる）が、**原因ではなかった**。
+   → **真因は cp932**（同日特定・修正済み）。Windows の Python は **stdin も subprocess の `text=True` も locale=cp932** で扱うため、**A**: payload 中の日本語が `surrogateescape` で孤立サロゲート化し `write_text(encoding="utf-8")` が「surrogates not allowed」で落ちる／**B**: `git log -1 --format=%s` が返す**日本語のコミット件名**で subprocess の**リーダースレッド**が UnicodeDecodeError を投げるが、**別スレッドで死ぬので呼び出し側には `returncode=0` かつ `stdout=None` が返り**、`.stdout.strip()` が AttributeError → `except Exception: pass` に飲まれる。結果 vault のコミットが 08-08 から1週間止まり、Inbox に26件が `git add` 済みのまま滞留していた（08-08 の「未同期分を一括コミット」も同じ再発の手当てだった）。**対策＝`json.loads(sys.stdin.buffer.read().decode("utf-8","replace"))` と `subprocess.run(..., encoding="utf-8", errors="replace")` を明示する（`text=True` を書かない）**。
+   → **教訓＝検証は「その仕組みが実際に走るのと同じ経路」で行う**。シェルが違えば `~` の扱いも変わる。**別の経路で再現した失敗は、その仕組みが壊れている証拠にはならない**。
+
 - **同型の危険**: 「正本と複製がある」構造すべて（Obsidian Vault と Drive ミラー、Drive の案件フォルダとローカル、DEPLOYED.md と本番）。**複製側の成功をもって正本の同期を判断しない**。
 - このルールは**石井さんが取り消すまで有効**。
 

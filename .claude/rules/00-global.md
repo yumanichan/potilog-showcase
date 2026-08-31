@@ -21,7 +21,8 @@ A project's own CLAUDE.md OVERRIDES this baseline wherever they conflict. -->
 1. `~/Desktop/claude-projects/vault/NOW.md` — 現在のフォーカス
 2. `~/Desktop/claude-projects/vault/Preferences/ai-behavior.md` — 作業スタイル
 
-※ **`~` はホーム**（Windows = `C:\Users\julia`、Mac = `/Users/ishiiyuuma`）。2台運用のため OS 非依存で書く。
+※ **`~` はホーム**。**2026-08-31 に MacBook Pro（`/Users/apple`）1台へ移行**し、Windows（`C:\Users\julia`）と旧MacBook Air（`/Users/ishiiyuuma`）はどちらも友人所有で返却した。
+**以降の記述に出てくるこの2つのパスは当時の履歴**であって現在は存在しない。新しく書くものは必ず `~` 起点にする。
 
 ### 必要になったら読む（自動ではない）
 
@@ -85,7 +86,9 @@ repo root の `CLAUDE.md` は「そのプロジェクト固有のルール」。
 石井さんが使う略語・固有名詞。会話で出たら以下と解釈する。
 
 - **CE** = **クローエンパイヤ（Claw-Empire）**。ローカルで動く「AI社員の会社シミュレータ」（OSS: `GreenSheep01201/claw-empire` / Apache 2.0 / 無料）。名前付きAI社員＋部署にタスクを振り、Claude Code が実作業する。
-  - 配置: `~/Desktop/claude-projects/claw-empire`（※Mac には未clone。必要になったら clone する）
+  - 配置: `~/Desktop/claude-projects/claw-empire`（2026-08-31 に新Macへ **bundle から** clone 済み＝
+    `windows-handover/bundles/claw-empire-full.bundle`。**上流に無いローカル改造18コミットを含むので、
+    上流から clone し直さないこと**。origin は上流に向け直してある）
   - 起動: 同ディレクトリで `pnpm dev:local` → Web UI `http://127.0.0.1:8800`（API `:8790`、DB は SQLite）
   - **永久ルール: 石井さんが「CEを開いて」と言ったら、開発(dev:local)ではなく必ず本番環境で開く。**
     手順: `~/Desktop/claude-projects/claw-empire` で `pnpm build` → `pnpm start`（バックグラウンド）→ `http://127.0.0.1:8790` の応答(HTTP 200)を確認 → ブラウザを開く（Windows: `Start-Process "http://127.0.0.1:8790"` / Mac: `open "http://127.0.0.1:8790"`）。落ちたら再ビルド→再起動で対応。（CINCはlocalhostに届かないためUI操作の代行は不可。）
@@ -513,7 +516,7 @@ MacBook を2台目として使うため、**客先資料は Google ドライブ�
 | しんちゃんチーム等の案件資料 | Win: `C:\Users\julia\GoogleDrive\shinchan-onhisho`<br>Mac: `~/GoogleDrive/shinchan-onhisho` | `…/claude-projects/shinchan-onhisho` | 791ファイル / 208MB |
 | リベシティ関連 | Win: `C:\Users\julia\GoogleDrive\libecity-work`<br>Mac: `~/GoogleDrive/libecity-work` | `…/claude-projects/libecity-work` | 212ファイル / 119MB |
 
-**マシン別の実体**: Windows は `C:\Users\julia\GoogleDrive`（ジャンクション `mklink /J`）、Mac は `/Users/ishiiyuuma/GoogleDrive`（シンボリックリンク `ln -s`）。**ホームの下の `GoogleDrive` という名前で揃えてある**ので、`~/GoogleDrive/...` と書けば両OSで通る。
+**実体**: **`~/GoogleDrive`**（2026-08-31 以降は `/Users/apple/GoogleDrive` の1台のみ。旧構成＝Windows のジャンクション `mklink /J` と旧Mac の `ln -s` は返却で消滅）。`claude-projects/` 配下の `shinchan-onhisho` / `libecity-work` は**そこへ向けたシンボリックリンク**。Drive は必ず**「ファイルをミラーリング」**設定にする。
 ⚠️ Mac で Drive の保存先に `~/Library/CloudStorage/GoogleDrive-<メール>` を指定すると「**アップロードできない構成ファイルが含まれているため同期できません**」で失敗する（そこは Drive 自身のストリーミング用予約領域のため）。**必ず別フォルダ（`~/GoogleDrive`）を作って指定する**（2026-07-20 実機で遭遇）。
 
 Drive は**「ファイルをミラーリング」設定**（ストリーミングではない）＝実体がローカルディスクにあるので、
@@ -568,7 +571,8 @@ Mac 側も同じ `yumanichan@gmail.com` でサインインし、同じくミラ�
 3. **成果物はローカルの"案件フォルダ"に置いて、パスとアップ先URLをセットで渡して終わり**（§残タスクが「石井さん本人のアップロードだけ」になったら〜 のとおり）。ローカル＝`~/GoogleDrive/...` のミラー配下にファイルを作るのは**Drive操作ではない**ので可（同期は Drive クライアントの仕事）。
    - **置き場所＝その案件のフォルダ**。しんちゃんチームなら `~/GoogleDrive/shinchan-onhisho/<案件フォルダ>/`（例: `S31_伯方町有津蓄電所/`）＝**石井さん指定 2026-08-02**。**scratchpad に置いたまま渡さない／リポ直下・Desktop直下に置かない**。
    - ⚠️ `Desktop/claude-projects/shinchan-onhisho/…` と `GoogleDrive/shinchan-onhisho/…` は**ジャンクションで同じ実体**（§客先資料の置き場所＝Google ドライブ）。石井さんが旧パスで指示してきても**同じ場所なので置き直し不要**＝まず `cmp` 等で同一かを実測してから「入れました／既に入っています」と答える。探索する時は Glob が旧パスを辿れないので正パス（`~/GoogleDrive/…`）を使う。
-4. **⭐⭐石井さんに渡すパスは必ず `C:\Users\julia\Desktop\claude-projects\…` 表記で書く**（石井さん 2026-08-02:「`GoogleDrive\…` じゃなくて `Desktop\claude-projects\shinchan-onhisho` **だったら自分で開ける**」「これだと見つけられないんだよね」）。**`~/GoogleDrive/…` は Claude 側の探索用の内部表記**であって、石井さんに見せるものではない（同じ実体でも、石井さんの導線に無いパスは"存在しない場所"と同じ）。
+4. **⭐⭐石井さんに渡すパスは「石井さんが自分で開ける表記」で書く**＝**`~/Desktop/claude-projects/…`**（実体は `/Users/apple/Desktop/claude-projects/…`）。
+   ※ 原文の指定は `C:\Users\julia\Desktop\claude-projects\…` だったが、**Windows は 2026-08-31 に返却**したので表記を更新した。**趣旨（渡す相手が辿れる表記で渡す）は不変**。（石井さん 2026-08-02:「`GoogleDrive\…` じゃなくて `Desktop\claude-projects\shinchan-onhisho` **だったら自分で開ける**」「これだと見つけられないんだよね」）。**`~/GoogleDrive/…` は Claude 側の探索用の内部表記**であって、石井さんに見せるものではない（同じ実体でも、石井さんの導線に無いパスは"存在しない場所"と同じ）。
    - ⚠️ **同じ実体だからどちらでもよい、ではない**。渡す相手が辿れる表記でなければ渡したことにならない。
    - 補助（毎回は不要）: **成果物ファイルは SendUserFile でチャットに出す**と、その場で中身を確認・保存できる。フォルダを実際に開いてほしい場面では `explorer.exe "<Desktop側のパス>"` も使える。
 5. **「〜しましょうか」と聞いたら、返事が来るまで実行しない**。次のユーザー発言が短い指示（「〜しないで」「〜して」）でも、**それが自分の質問への回答とは限らない**。回答と解釈する前に、その発言が自分の問いに答えているか確認する。今回は「マイドライブ直下に置かないで」を「移動して」と読み替えたのが誤り。
@@ -857,7 +861,8 @@ Bの未コミット編集は git 履歴に無いため復元不能に消えて�
 1. **「編集した＝両マシンに届いた」と仮定しない＝正本のリポの状態を実測する**。`~/.claude/CLAUDE.md` を触ったら `git -C ~/.claude status --short -- CLAUDE.md` が**空**であることを確認する。`M` が残っていれば、そのルールはまだこのマシンにしか存在しない。
 2. **hook の成功出力を「同期完了」の証拠として扱わない**。`sync-global-rules:` の出力は**行ごとに対象が違う**。`[.claude] PUSHED 正本` の行が出ているかを見る（`[ew-writing] PUSHED` は複製の話でしかない）。複製系の成功メッセージは、正本について何も言っていない。
 3. **物理保証を優先する（口頭ルールより hook）**。`sync_global_rules.py` に `sync_self()` を追加済み＝CLAUDE.md 編集時に**正本そのものを `--only` で commit + push** する（`~/.claude` には作成中のスキル等が同居するので `git add -A` では巻き込まない。rebase/merge 中は触らない）。
-   - **手動同期のコマンドは OS で違う**（2026-08-03 実測）。**Mac: `python3 ~/.claude/scripts/sync_global_rules.py` ／ Windows(PowerShell): `py C:\Users\julia\.claude\scripts\sync_global_rules.py`**。
+   - **手動同期のコマンド**: **`python3 ~/.claude/scripts/sync_global_rules.py`**。
+     ※ 2026-08-31 で Windows を返却したため、下の cp932 まわりの注意（`py` を使う／`python3` はStoreスタブに吸われる）は**Windows固有の履歴**として残す。現在の1台構成では該当しない。
    - ⚠️ **Windows の PowerShell で `python3` を使ってはいけない**。Microsoft Store のスタブに吸われて `Python` とだけ表示し、**引数を無視して exit 0 で終わる**＝スクリプトは1行も動かないのにエラーも出ない。「実行した＝同期された」と読める最悪の形なので、出力に `sync-global-rules:` の行が出たかを必ず目視する。
 4. **push が弾かれた時に黙って進めない**。非fast-forward で失敗したら hook は `⚠️ COMMITTED but PUSH FAILED` を出す。これを見たら **`git -C ~/.claude pull --rebase && git -C ~/.claude push`** を実行してから作業を続ける。**コミットは済んでいるので内容は失われていない**が、押していない＝もう片方のマシンには無い。
 5. **マシンを移る時は3リポを同時に見る**（`ew-writing` / `vault` / `~/.claude`）。`~/.claude` を忘れると、スキルと永久ルールだけが古いまま作業することになる。片方で作業した直後は**双方向に behind が出る**前提で、着手前に必ず fetch して実測する。

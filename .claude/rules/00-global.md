@@ -51,6 +51,19 @@ NOW.md / ai-behavior.md が読めない（ファイル不在等）場合は石�
 
 理由: Claude セッション間で context 統一 + Vault からの参照経路統一。
 
+### 例外: ゲーム制作プロジェクトは `claude-games/` 配下（2026-09-23 制定）
+
+ゲーム制作に関するプロジェクトは、上記の `claude-projects/{project-name}/` 直下ではなく
+**`~/Desktop/claude-projects/claude-games/{project-name}/`** に作成する（石井さん指示: 「最近ゲーム増えすぎてる」）。
+
+- 新規のゲームプロジェクトは最初から `claude-games/` 配下に作る。
+- 既存の10個（fish-agar / fish-agar-fable / fish-agar-play / glitch-survivors-ts / mini-3d-rpg /
+  moba-of-duty / moba-of-duty-play / sphere-tag / sphere-tag-v5 / sphere-tag-v6）は
+  2026-09-23 に `claude-games/` へ移動済み。git worktree の相互参照（fish-agar・moba-of-duty・
+  sphere-tag が持つ子worktree）は移動後にポインタファイルを修復済み。
+- ゲームのアイデアストックは `claude-games/IDEAS.md`。次に何を作るか迷ったらまずここを見る。
+- このルールは**石井さんが取り消すまで有効**。
+
 ## プロジェクト個別 CLAUDE.md は補足扱い
 
 repo root の `CLAUDE.md` は「そのプロジェクト固有のルール」。Vault と矛盾する場合は Vault 優先（Vault 側 `Decisions/log.md` に上書き理由が明示されている場合のみ例外）。

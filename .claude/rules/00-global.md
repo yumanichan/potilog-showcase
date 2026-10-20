@@ -271,7 +271,7 @@ Claude の枠（20倍）は減りにくいので、目的は節約より「Googl
 | 作業 | 回し方 | Claude の役割 |
 |---|---|---|
 | ゲーム・コードの実装（仕様が決まっていて、テスト・画面で検証できるもの） | `agy_delegate.py`（**linked worktree** で） | 依頼文・外からの検証・コミット |
-| **案件探しの精読・一次スクリーニング**（cw-hunt Step 3-0。**候補10件超の回は最初にやる**） | `~/.claude/skills/cw-hunt/scripts/gemini_screen.py` | 取得(CINC)・抜き取り確認・「通過」「要確認」の精読・応募入力 |
+| **案件探し全体**（検索・取得・精読・候補一覧。cw-hunt「Step 1-2【既定】」。**ジャンルが決まったら最初にこれ**） | `python3 ~/.claude/skills/cw-hunt/scripts/gemini_hunt.py --genre <slug>`（取得は決まった処理・判定は Gemini） | 報告書の確認（母集団の突合・抜き取り・「通過」「要確認」の精読）・応募フォーム入力（CINC）。**送信は本人** |
 | 公開記事の読解・適合判定（libe-library など） | `agy_delegate.py`（専用の一時フォルダ） | 裏取り・採用の判断 |
 
 **Claude が持つ**（共通ルール §6）: 検証・統合・客先案件・営業の応募/送信・外部送信・本番デプロイ・Drive・画像（Gemini アプリ）。

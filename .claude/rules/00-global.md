@@ -270,7 +270,8 @@ CAIC でできないタスクが出たら、デスクトップ版用プロンプ
 
 | 判定 | 保存先 |
 |---|---|
-| **デフォルト・迷ったらこれ** | A. ~/.claude/CLAUDE.md に追記（振る舞いルール） |
+| **デフォルト・迷ったらこれ**（ツールを問わず守らせたい振る舞いルール） | A. **~/.claude/common-rules.md に追記**（Claude と Antigravity の共通の正本。2026-10-20 変更。命令文＋理由1行で書く） |
+| Claude 固有（hook・skill・ブラウザ拡張・CAIC）／案件固有の運用 | A'. ~/.claude/CLAUDE.md に追記（または案件の業務マニュアル・STATUS.md） |
 | 明らかにプロジェクト固有の判断・規約 | B. vault/Decisions/log.md に追記 |
 | 明らかに「作業スタイル」「コミュニケーション好み」 | C. vault/Preferences/ai-behavior.md に追記 |
 

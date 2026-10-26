@@ -280,7 +280,7 @@ Claude の枠（20倍）は減りにくいので、目的は節約より「Googl
 1. **Antigravity の枠**: セッション冒頭の行、または `python3 ~/.claude/scripts/agy_quota.py --refresh`。**Gemini 系が「停止」なら委譲せず**、リセット時刻を石井さんに伝える。「注意」なら価値の高い作業だけ。
 2. **Claude 自身の枠**: デスクトップなら `get_usage`（`mcp__ccd_session_mgmt__get_usage`）で週・5時間を見て、報告に1行で併記する。逼迫（週 or 5時間が80%超）なら、委譲できる作業は全部 Gemini へ。余裕があっても、上の表の作業は**最初に** Gemini（枠を使い切るため）。
 3. **依頼文**: 自己完結（目的・読むファイル・触ってよい範囲・触ってはいけない範囲・報告の形）。シェル不可などの共通の制約文は、入口が**自動で先頭に付ける**。
-4. **実行**: `python3 ~/.claude/scripts/agy_delegate.py --brief 依頼文.md --workdir <linked worktree か専用の一時フォルダ> --label 短い名前`。**同時に1つだけ**（入口がロックする）。長い作業は caffeinate つきで走る。既定のモデルは `gemini-4-argon-high`。
+4. **実行**: `python3 ~/.claude/scripts/agy_delegate.py --brief 依頼文.md --workdir <linked worktree か専用の一時フォルダ> --label 短い名前`。**同時に1つだけ**（入口がロックする）。長い作業は caffeinate つきで走る。**既定のモデルは `gemini-3.8-flash-high`（Flash。2026-10-27 から）**。上位の Argon（`gemini-4-argon-high`）は §3-2 の作業だけ、`--model` で**明示**する。
 5. **検証（Gemini の「完了」は自己申告）**: 外から行う＝テスト・ビルド・実ブラウザ・画面の写真・件数の突合（共通ルール §3）。差分は必ず読む。見た目は画像で見る（2026-10-20 に、テストが全部緑でも画面に不具合があった）。
 6. **差し戻し**: 問題と根拠（写真・数値）を依頼文にして1回戻す。作業フォルダの外の写真は読めない＝作業フォルダの中の無視されるフォルダ（`shots/`）に置く。
 7. **記録**: 台帳は自動（`~/.claude/agy-state/ledger.jsonl`）。得た一次情報は `ew-writing/inbox.md`。

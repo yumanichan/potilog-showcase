@@ -191,6 +191,7 @@ repo root の `CLAUDE.md` は「そのプロジェクト固有のルール」。
   - 用途例: クラウドワークス案件探し等のリサーチを社員に委任。応募・送信は本人（人のみ）。
 - **CINC** = **Claude in Chrome**（「クロムインクローム」と発音される事あり）。Chrome を Claude が自動操作する MCP（`mcp__Claude_in_Chrome__*`）。ローカル Web アプリ（例: CE の UI `127.0.0.1:8800`）のクリック/入力をUI経由で自動化する用途。DBを直接触らず安全に設定変更したい時に使う。
 - **COD プロンプト** = **Claude-of-Duty の原文プロンプト**。言われたらそのまま出力する（→ §「CODプロンプト」と言われたら、この定型文をそのまま出力する）。
+- **めt**（「メト」とも） = **Metricool（メトリクール）**（2026-11-06 石井さん「永久ルール めt＝Metricool」）。SNS の予約投稿と数字の分析の道具。2026-11-06 に yuma@effortlessworks.work で無料登録し、インスタ yuma.aijimu をつないだ。Claude デスクトップ版にコネクタ「Metricool Social Media Management」を追加済み。「めtの登録」「めtで予約」などはこれのこと。「メタ（Meta）」と取り違えない。使い方の記録は `~/Desktop/claude-projects/ew-writing/drafts/2026-11-28-libe-metricool-claude-insta/record-items.md`。
 
 ## グローバルルールの CAIC 同期（自動）
 
